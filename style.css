@@ -186,6 +186,26 @@ select.err { border-color: var(--error); }
 }
 .preview.on { display: block; }
 
+.replace-btn {
+  display: block;
+  margin: 8px auto 0;
+  padding: 6px 18px;
+  background: none;
+  border: 1.5px solid var(--primary);
+  border-radius: 8px;
+  color: var(--primary);
+  font-family: 'Cairo', serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.replace-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+
 /* ── SUBMIT ── */
 .submit-wrap { max-width: 580px; margin: 0 auto; }
 
