@@ -114,36 +114,86 @@ function compressImage(file, maxWidth = 1200, quality = 0.75) {
 function validate() {
   let isValid = true;
 
-  // Text / select fields
-  REQUIRED_FIELDS.forEach(id => {
+  // ── Helper: show/hide error ──
+  function showErr(id, msg, hasErr) {
     const el  = document.getElementById(id);
     const err = document.getElementById("e-" + id);
-    const empty = !el.value.trim();
+    if (el)  el.classList.toggle("err", hasErr);
+    if (err) {
+      if (msg) err.textContent = msg;
+      err.classList.toggle("on", hasErr);
+    }
+    if (hasErr) isValid = false;
+  }
 
-    el.classList.toggle("err", empty);
-    err.classList.toggle("on",  empty);
+  // ── الاسم الرباعي: at least 4 words, Arabic letters only ──
+  const name = document.getElementById("fullName").value.trim();
+  const nameWords = name.split(/\s+/).filter(w => w.length > 0);
+  if (!name) {
+    showErr("fullName", "هذا الحقل مطلوب", true);
+  } else if (nameWords.length < 4) {
+    showErr("fullName", "يرجى كتابة الاسم الرباعي كاملاً (٤ أسماء على الأقل)", true);
+  } else {
+    showErr("fullName", "", false);
+  }
 
-    if (empty) isValid = false;
+  // ── Select fields (stage, service, gender) ──
+  ["stage", "service", "gender"].forEach(id => {
+    const val = document.getElementById(id).value;
+    showErr(id, "هذا الحقل مطلوب", !val);
   });
 
-  // Image fields
+  // ── تاريخ الميلاد: must exist and be reasonable (age 2–18) ──
+  const birthVal = document.getElementById("birthDate").value;
+  if (!birthVal) {
+    showErr("birthDate", "هذا الحقل مطلوب", true);
+  } else {
+    const birth = new Date(birthVal);
+    const today = new Date();
+    const age = today.getFullYear() - birth.getFullYear();
+    if (age < 2 || age > 18) {
+      showErr("birthDate", "تاريخ الميلاد يجب أن يكون بين ٢ و ١٨ سنة", true);
+    } else {
+      showErr("birthDate", "", false);
+    }
+  }
+
+  // ── Egyptian phone validation (11 digits, starts with 01) ──
+  const phoneRegex = /^01[0-9]{9}$/;
+
+  // Parent phone (required)
+  const parentPhone = document.getElementById("parentPhone").value.trim();
+  if (!parentPhone) {
+    showErr("parentPhone", "هذا الحقل مطلوب", true);
+  } else if (!phoneRegex.test(parentPhone)) {
+    showErr("parentPhone", "رقم التليفون يجب أن يكون ١١ رقم ويبدأ بـ 01", true);
+  } else {
+    showErr("parentPhone", "", false);
+  }
+
+  // Student phone (optional — but validate format if filled)
+  const studentPhone = document.getElementById("studentPhone").value.trim();
+  if (studentPhone && !phoneRegex.test(studentPhone)) {
+    showErr("studentPhone", "رقم التليفون يجب أن يكون ١١ رقم ويبدأ بـ 01", true);
+  } else {
+    showErr("studentPhone", "", false);
+  }
+
+  // ── Image fields ──
   ["photo", "birth"].forEach(type => {
     const err = document.getElementById("e-" + type);
     const missing = !images[type];
-
     err.classList.toggle("on", missing);
     if (missing) isValid = false;
   });
 
-  // Checkbox groups
+  // ── Checkbox groups ──
   REQUIRED_CHECKBOX_GROUPS.forEach(id => {
     const group = document.getElementById(id);
     const err   = document.getElementById("e-" + id);
     const checked = group.querySelectorAll("input[type='checkbox']:checked").length > 0;
-
     group.classList.toggle("err", !checked);
     err.classList.toggle("on", !checked);
-
     if (!checked) isValid = false;
   });
 
