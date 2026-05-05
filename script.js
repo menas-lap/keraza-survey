@@ -1,197 +1,187 @@
-// ══════════════════════════════════════════
-//  CONFIG
-// ══════════════════════════════════════════
-const SCRIPT_URL  = "https://script.google.com/macros/s/AKfycbzio4QM4vOVY_I1Jffu95ZrRFKxJXAxrg2z3Q9BfT8YXz32LfbV10EerChztAYO5DzCfw/exec";
-const K_SUBMITTED = "keraza_submitted";
-const K_TOKEN     = "keraza_token";
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استبيان مهرجان الكرازة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-// Required field IDs (must match HTML)
-const REQUIRED_FIELDS = [
-  "fullName",
-  "stage",
-  "service",
-  "gender",
-  "birthDate",
-  "studentPhone",
-  "parentPhone",
-];
+  <!-- ═══════════ BLOCKED SCREEN ═══════════ -->
+  <div id="blockedScreen" class="screen">
+    <div class="header">
+      <span class="cross">☩</span>
+      <h1>مهرجان الكرازة</h1>
+      <div class="divider"></div>
+    </div>
+    <div class="info-screen">
+      <div class="info-icon">✅</div>
+      <h2>تم تسجيل بياناتك</h2>
+      <p>لقد قمت بملء الاستبيان من قبل.</p>
+      <button class="ghost-btn" onclick="toggleBox('blockedBox')">أخطأت في البيانات؟</button>
+      <div class="contact-box" id="blockedBox">
+        إذا أخطأت في البيانات، يرجى التواصل مع خادمك المباشر لتصحيح المعلومات.
+      </div>
+    </div>
+  </div>
 
-// Holds compressed base64 images
-const images = { photo: null, birth: null };
+  <!-- ═══════════ FORM SCREEN ═══════════ -->
+  <div id="formScreen" class="screen">
+    <div class="header">
+      <span class="cross">☩</span>
+      <h1>استبيان مهرجان الكرازة</h1>
+      <p>يُرجى ملء جميع البيانات بدقة</p>
+      <div class="divider"></div>
+    </div>
 
+    <div class="form-card">
+      <div class="section-title">البيانات الشخصية</div>
 
-// ══════════════════════════════════════════
-//  INIT
-// ══════════════════════════════════════════
-(function init() {
-  // Already submitted → block
-  if (localStorage.getItem(K_SUBMITTED)) {
-    showScreen("blockedScreen");
-    return;
-  }
+      <div class="field">
+        <label>الاسم الرباعي <span class="req">*</span></label>
+        <input type="text" id="fullName" placeholder="الاسم الأول والثاني والثالث والرابع">
+        <div class="ferr" id="e-fullName">هذا الحقل مطلوب</div>
+      </div>
 
-  // Generate token if first visit
-  if (!localStorage.getItem(K_TOKEN)) {
-    const token = "tk_" + Date.now() + "_" + Math.random().toString(36).slice(2, 9);
-    localStorage.setItem(K_TOKEN, token);
-  }
+      <div class="field">
+        <label>المرحلة <span class="req">*</span></label>
+        <select id="stage">
+          <option value="">— اختر المرحلة —</option>
+          <option value="حضانة">حضانة</option>
+          <option value="أولى/ثانية">أولى / ثانية</option>
+          <option value="ثالثة/رابعة">ثالثة / رابعة</option>
+          <option value="خامسة/سادسة">خامسة / سادسة</option>
+        </select>
+        <div class="ferr" id="e-stage">هذا الحقل مطلوب</div>
+      </div>
 
-  showScreen("formScreen");
-})();
+      <div class="field">
+        <label>الخدمة <span class="req">*</span></label>
+        <select id="service">
+          <option value="">— اختر الخدمة —</option>
+          <option value="أبو سيفين">أبو سيفين</option>
+          <option value="العدراء">العدراء</option>
+          <option value="يوحنا">يوحنا</option>
+          <option value="خامسة وسادسة">خامسة وسادسة</option>
+          <option value="شمامسة">شمامسة</option>
+        </select>
+        <div class="ferr" id="e-service">هذا الحقل مطلوب</div>
+      </div>
 
+      <div class="field">
+        <label>النوع <span class="req">*</span></label>
+        <select id="gender">
+          <option value="">— اختر —</option>
+          <option value="حضانة">حضانة</option>
+          <option value="ولد">ولد</option>
+          <option value="بنت">بنت</option>
+        </select>
+        <div class="ferr" id="e-gender">هذا الحقل مطلوب</div>
+      </div>
 
-// ══════════════════════════════════════════
-//  SCREEN MANAGEMENT
-// ══════════════════════════════════════════
-function showScreen(id) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
-  document.getElementById(id).classList.add("active");
-}
+      <div class="field">
+        <label>تاريخ الميلاد <span class="req">*</span></label>
+        <input type="date" id="birthDate">
+        <div class="ferr" id="e-birthDate">هذا الحقل مطلوب</div>
+      </div>
 
+      <div class="field">
+        <label>رقم تليفون المخدوم</label>
+        <input type="tel" id="studentPhone" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right">
+      </div>
 
-// ══════════════════════════════════════════
-//  FILE HANDLING
-// ══════════════════════════════════════════
-function handleFile(input, type) {
-  const file = input.files[0];
-  if (!file) return;
+      <div class="field">
+        <label>رقم تليفون ولي الأمر <span class="req">*</span></label>
+        <input type="tel" id="parentPhone" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right">
+        <div class="ferr" id="e-parentPhone">هذا الحقل مطلوب</div>
+      </div>
 
-  compressImage(file).then(base64 => {
-    images[type] = base64;
-    document.getElementById("img-"  + type).src = base64;
-    document.getElementById("prev-" + type).classList.add("on");
-    document.getElementById("e-"    + type).classList.remove("on");
-  });
-}
+      <div class="field">
+        <label>الأسرة</label>
+        <input type="text" id="family" placeholder="اسم الأسرة">
+      </div>
 
-function compressImage(file, maxWidth = 1200, quality = 0.75) {
-  return new Promise(resolve => {
-    const reader = new FileReader();
+      <div class="field">
+        <label>صورة شهادة الميلاد <span class="req">*</span></label>
+        <div class="file-zone" id="zone-birth">
+          <input type="file" accept="image/*" onchange="handleFile(this,'birth')">
+          <div class="file-icon">🪪</div>
+          <div class="file-label">اضغط لرفع صورة شهادة الميلاد</div>
+        </div>
+        <div class="preview" id="prev-birth">
+          <img id="img-birth" src="" alt="شهادة الميلاد">
+          <button type="button" class="replace-btn" onclick="replaceImage('birth')">تغيير الصورة</button>
+        </div>
+        <div class="ferr" id="e-birth">هذا الحقل مطلوب</div>
+      </div>
 
-    reader.onload = e => {
-      const img = new Image();
+      <div class="field">
+        <label>الصورة الشخصية <span class="req">*</span></label>
+        <div class="file-zone" id="zone-photo">
+          <input type="file" accept="image/*" onchange="handleFile(this,'photo')">
+          <div class="file-icon">📷</div>
+          <div class="file-label">اضغط لرفع الصورة الشخصية</div>
+        </div>
+        <div class="preview" id="prev-photo">
+          <img id="img-photo" src="" alt="الصورة الشخصية">
+          <button type="button" class="replace-btn" onclick="replaceImage('photo')">تغيير الصورة</button>
+        </div>
+        <div class="ferr" id="e-photo">هذا الحقل مطلوب</div>
+      </div>
 
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        let w = img.width;
-        let h = img.height;
+      <div class="field">
+        <label>الروحي <span class="req">*</span></label>
+        <select id="holy" multiple>
+          <option value="">— اختر الأنشطة الروحية —</option>
+          <option value="الكتاب المقدس">الكتاب المقدس</option>
+          <option value="الألحان">الألحان</option>
+          <option value="القبطي">القبطي</option>
+          <option value="المحفوظات">المحفوظات</option>
+        </select>
+        <div class="ferr" id="e-holy">هذا الحقل مطلوب</div>
+      </div>
 
-        if (w > maxWidth) {
-          h = (maxWidth / w) * h;
-          w = maxWidth;
-        }
+      <div class="field">
+        <label>الرياضي <span class="req">*</span></label>
+        <select id="sport" multiple>
+          <option value="">— اختر الأنشطة الرياضيية —</option>
+          <option value="كرة القدم">كرة القدم</option>
+          <option value="تنس">تنس طاولة</option>
+          <option value="شطرنج">شطرنج</option>
+          <option value="جري">جري</option>
+        </select>
+        <div class="ferr" id="e-sport">هذا الحقل مطلوب</div>
+      </div>
+    </div>
 
-        canvas.width  = w;
-        canvas.height = h;
-        canvas.getContext("2d").drawImage(img, 0, 0, w, h);
-        resolve(canvas.toDataURL("image/jpeg", quality));
-      };
+    <div class="submit-wrap">
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">إرسال البيانات ☩</button>
+      <div class="ornament">✦ ✦ ✦</div>
+    </div>
+  </div>
 
-      img.src = e.target.result;
-    };
+  <!-- ═══════════ SUCCESS SCREEN ═══════════ -->
+  <div id="successScreen" class="screen">
+    <div class="header">
+      <span class="cross">☩</span>
+      <h1>مهرجان الكرازة</h1>
+      <div class="divider"></div>
+    </div>
+    <div class="info-screen">
+      <div class="info-icon">🎉</div>
+      <h2>تم الإرسال بنجاح!</h2>
+      <p>تم تسجيل بياناتك بنجاح!</p>
+      <div class="srv-id" id="srvId"></div>
+      <br>
+      <button class="ghost-btn" onclick="toggleBox('successBox')">أخطأت في البيانات؟</button>
+      <div class="contact-box" id="successBox">
+        إذا أخطأت في البيانات، يرجى التواصل مع خادمك المباشر لتصحيح المعلومات.
+      </div>
+    </div>
+  </div>
 
-    reader.readAsDataURL(file);
-  });
-}
-
-
-// ══════════════════════════════════════════
-//  VALIDATION
-// ══════════════════════════════════════════
-function validate() {
-  let isValid = true;
-
-  // Text / select fields
-  REQUIRED_FIELDS.forEach(id => {
-    const el  = document.getElementById(id);
-    const err = document.getElementById("e-" + id);
-    const empty = !el.value.trim();
-
-    el.classList.toggle("err", empty);
-    err.classList.toggle("on",  empty);
-
-    if (empty) isValid = false;
-  });
-
-  // Image fields
-  ["photo", "birth"].forEach(type => {
-    const err = document.getElementById("e-" + type);
-    const missing = !images[type];
-
-    err.classList.toggle("on", missing);
-    if (missing) isValid = false;
-  });
-
-  return isValid;
-}
-
-
-// ══════════════════════════════════════════
-//  SUBMIT
-// ══════════════════════════════════════════
-async function submitForm() {
-  if (!validate()) {
-    // Scroll to first visible error
-    const firstError = document.querySelector(".ferr.on");
-    if (firstError) firstError.scrollIntoView({ behavior: "smooth", block: "center" });
-    return;
-  }
-
-  const btn = document.getElementById("submitBtn");
-  btn.textContent = "جاري الإرسال...";
-  btn.disabled = true;
-
-  const payload = {
-    token:        localStorage.getItem(K_TOKEN),
-    fullName:     document.getElementById("fullName").value.trim(),
-    stage:        document.getElementById("stage").value,
-    service:      document.getElementById("service").value,
-    gender:       document.getElementById("gender").value,
-    birthDate:    document.getElementById("birthDate").value,
-    studentPhone: document.getElementById("studentPhone").value.trim(),
-    parentPhone:  document.getElementById("parentPhone").value.trim(),
-    family:       document.getElementById("family").value.trim(),
-    photo:        images.photo,
-    birthCert:    images.birth,
-  };
-
-  try {
-    const response = await fetch(SCRIPT_URL, {
-      method: "POST",
-      body: JSON.stringify(payload),
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      localStorage.setItem(K_SUBMITTED, "true");
-      document.getElementById("srvId").textContent = "رقم تسجيلك: " + result.id;
-      showScreen("successScreen");
-
-    } else if (result.reason === "duplicate") {
-      alert("رقم تليفون ولي الأمر هذا مسجّل من قبل.\nإذا أخطأت، تواصل مع خادمك المباشر.");
-      resetButton(btn);
-
-    } else {
-      throw new Error(result.reason);
-    }
-
-  } catch (err) {
-    alert("حدث خطأ أثناء الإرسال. تأكد من الاتصال بالإنترنت وحاول مرة أخرى.");
-    console.error(err);
-    resetButton(btn);
-  }
-}
-
-function resetButton(btn) {
-  btn.textContent = "إرسال البيانات ☩";
-  btn.disabled = false;
-}
-
-
-// ══════════════════════════════════════════
-//  CONTACT INFO TOGGLE
-// ══════════════════════════════════════════
-function toggleBox(id) {
-  document.getElementById(id).classList.toggle("on");
-}
+  <script src="script.js"></script>
+</body>
+</html>
