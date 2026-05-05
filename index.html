@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>استبيان مهرجان الكرازة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ═══════════ BLOCKED SCREEN ═══════════ -->
+  <div id="blockedScreen" class="screen">
+    <div class="header">
+      <span class="cross">☩</span>
+      <h1>مهرجان الكرازة</h1>
+      <div class="divider"></div>
+    </div>
+    <div class="info-screen">
+      <div class="info-icon">✅</div>
+      <h2>تم تسجيل بياناتك</h2>
+      <p>لقد قمت بملء الاستبيان من قبل.</p>
+      <button class="ghost-btn" onclick="toggleBox('blockedBox')">أخطأت في البيانات؟</button>
+      <div class="contact-box" id="blockedBox">
+        إذا أخطأت في البيانات، يرجى التواصل مع خادمك المباشر لتصحيح المعلومات.
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ FORM SCREEN ═══════════ -->
+  <div id="formScreen" class="screen">
+    <div class="header">
+      <span class="cross">☩</span>
+      <h1>استبيان مهرجان الكرازة</h1>
+      <p>يُرجى ملء جميع البيانات بدقة</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="form-card">
+      <div class="section-title">البيانات الشخصية</div>
+
+      <div class="field">
+        <label>الاسم الرباعي <span class="req">*</span></label>
+        <input type="text" id="fullName" placeholder="الاسم الأول والثاني والثالث والرابع">
+        <div class="ferr" id="e-fullName">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>المرحلة <span class="req">*</span></label>
+        <select id="stage">
+          <option value="">— اختر المرحلة —</option>
+          <option value="حضانة">حضانة</option>
+          <option value="أولى/ثانية">أولى / ثانية</option>
+          <option value="ثالثة/رابعة">ثالثة / رابعة</option>
+          <option value="خامسة/سادسة">خامسة / سادسة</option>
+        </select>
+        <div class="ferr" id="e-stage">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>الخدمة <span class="req">*</span></label>
+        <select id="service">
+          <option value="">— اختر الخدمة —</option>
+          <option value="أبو سيفين">أبو سيفين</option>
+          <option value="العدراء">العدراء</option>
+          <option value="يوحنا">يوحنا</option>
+          <option value="خامسة وسادسة">خامسة وسادسة</option>
+          <option value="شمامسة">شمامسة</option>
+        </select>
+        <div class="ferr" id="e-service">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>النوع <span class="req">*</span></label>
+        <select id="gender">
+          <option value="">— اختر —</option>
+          <option value="حضانة">حضانة</option>
+          <option value="ولد">ولد</option>
+          <option value="بنت">بنت</option>
+        </select>
+        <div class="ferr" id="e-gender">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>تاريخ الميلاد <span class="req">*</span></label>
+        <input type="date" id="birthDate">
+        <div class="ferr" id="e-birthDate">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>رقم تليفون المخدوم</label>
+        <input type="tel" id="studentPhone" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right">
+      </div>
+
+      <div class="field">
+        <label>رقم تليفون ولي الأمر <span class="req">*</span></label>
+        <input type="tel" id="parentPhone" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right">
+        <div class="ferr" id="e-parentPhone">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>الأسرة</label>
+        <input type="text" id="family" placeholder="اسم الأسرة">
+      </div>
+
+      <div class="field">
+        <label>صورة شهادة الميلاد <span class="req">*</span></label>
+        <div class="file-zone" id="zone-birth">
+          <input type="file" accept="image/*" onchange="handleFile(this,'birth')">
+          <div class="file-icon">🪪</div>
+          <div class="file-label">اضغط لرفع صورة شهادة الميلاد</div>
+        </div>
+        <div class="preview" id="prev-birth">
+          <img id="img-birth" src="" alt="شهادة الميلاد">
+          <button type="button" class="replace-btn" onclick="replaceImage('birth')">تغيير الصورة</button>
+        </div>
+        <div class="ferr" id="e-birth">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>الصورة الشخصية <span class="req">*</span></label>
+        <div class="file-zone" id="zone-photo">
+          <input type="file" accept="image/*" onchange="handleFile(this,'photo')">
+          <div class="file-icon">📷</div>
+          <div class="file-label">اضغط لرفع الصورة الشخصية</div>
+        </div>
+        <div class="preview" id="prev-photo">
+          <img id="img-photo" src="" alt="الصورة الشخصية">
+          <button type="button" class="replace-btn" onclick="replaceImage('photo')">تغيير الصورة</button>
+        </div>
+        <div class="ferr" id="e-photo">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>الروحي <span class="req">*</span></label>
+        <div class="checkbox-group" id="holy">
+          <label class="chip"><input type="checkbox" value="الكتاب المقدس"><span>الكتاب المقدس</span></label>
+          <label class="chip"><input type="checkbox" value="الألحان"><span>الألحان</span></label>
+          <label class="chip"><input type="checkbox" value="القبطي"><span>القبطي</span></label>
+          <label class="chip"><input type="checkbox" value="المحفوظات"><span>المحفوظات</span></label>
+        </div>
+        <div class="ferr" id="e-holy">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>الرياضي <span class="req">*</span></label>
+        <div class="checkbox-group" id="sport">
+          <label class="chip"><input type="checkbox" value="كرة القدم"><span>كرة القدم</span></label>
+          <label class="chip"><input type="checkbox" value="تنس طاولة"><span>تنس طاولة</span></label>
+          <label class="chip"><input type="checkbox" value="شطرنج"><span>شطرنج</span></label>
+          <label class="chip"><input type="checkbox" value="جري"><span>جري</span></label>
+        </div>
+        <div class="ferr" id="e-sport">هذا الحقل مطلوب</div>
+      </div>
+    </div>
+
+    <div class="submit-wrap">
+      <button class="submit-btn" id="submitBtn" onclick="submitForm()">إرسال البيانات ☩</button>
+      <div class="ornament">✦ ✦ ✦</div>
+    </div>
+  </div>
+
+  <!-- ═══════════ SUCCESS SCREEN ═══════════ -->
+  <div id="successScreen" class="screen">
+    <div class="header">
+      <span class="cross">☩</span>
+      <h1>مهرجان الكرازة</h1>
+      <div class="divider"></div>
+    </div>
+    <div class="info-screen">
+      <div class="info-icon">🎉</div>
+      <h2>تم الإرسال بنجاح!</h2>
+      <p>تم تسجيل بياناتك بنجاح!</p>
+      <div class="srv-id" id="srvId"></div>
+      <br>
+      <button class="ghost-btn" onclick="toggleBox('successBox')">أخطأت في البيانات؟</button>
+      <div class="contact-box" id="successBox">
+        إذا أخطأت في البيانات، يرجى التواصل مع خادمك المباشر لتصحيح المعلومات.
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
