@@ -42,7 +42,7 @@
       <div class="field">
         <label>الاسم الرباعي <span class="req">*</span></label>
         <input type="text" id="fullName" placeholder="الاسم الأول والثاني والثالث والرابع">
-        <div class="ferr" id="e-fullName">هذا الحقل مطلوب</div>
+        <div class="ferr" id="e-fullName">يرجى كتابة الاسم الرباعي كاملاً (٤ أسماء على الأقل)</div>
       </div>
 
       <div class="field">
@@ -84,18 +84,19 @@
       <div class="field">
         <label>تاريخ الميلاد <span class="req">*</span></label>
         <input type="date" id="birthDate">
-        <div class="ferr" id="e-birthDate">هذا الحقل مطلوب</div>
+        <div class="ferr" id="e-birthDate">يرجى إدخال تاريخ ميلاد صحيح</div>
       </div>
 
       <div class="field">
         <label>رقم تليفون المخدوم</label>
-        <input type="tel" id="studentPhone" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right">
+        <input type="tel" id="studentPhone" placeholder="01xxxxxxxxx" maxlength="11" dir="ltr" style="text-align:right">
+        <div class="ferr" id="e-studentPhone">رقم التليفون يجب أن يكون ١١ رقم ويبدأ بـ 01</div>
       </div>
 
       <div class="field">
         <label>رقم تليفون ولي الأمر <span class="req">*</span></label>
-        <input type="tel" id="parentPhone" placeholder="01xxxxxxxxx" dir="ltr" style="text-align:right">
-        <div class="ferr" id="e-parentPhone">هذا الحقل مطلوب</div>
+        <input type="tel" id="parentPhone" placeholder="01xxxxxxxxx" maxlength="11" dir="ltr" style="text-align:right">
+        <div class="ferr" id="e-parentPhone">رقم التليفون يجب أن يكون ١١ رقم ويبدأ بـ 01</div>
       </div>
 
       <div class="field">
