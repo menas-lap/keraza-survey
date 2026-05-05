@@ -217,17 +217,17 @@ async function submitForm() {
   btn.disabled = true;
 
   const payload = {
-    token:        localStorage.getItem(K_TOKEN),
     fullName:     document.getElementById("fullName").value.trim(),
-    stage:        document.getElementById("stage").value,
+    token:        localStorage.getItem(K_TOKEN),
     service:      document.getElementById("service").value,
-    gender:       document.getElementById("gender").value,
-    birthDate:    document.getElementById("birthDate").value,
-    studentPhone: document.getElementById("studentPhone").value.trim(),
+    stage:        document.getElementById("stage").value,
     parentPhone:  document.getElementById("parentPhone").value.trim(),
-    family:       document.getElementById("family").value.trim(),
+    studentPhone: document.getElementById("studentPhone").value.trim(),
+    birthDate:    document.getElementById("birthDate").value,
+    gender:       document.getElementById("gender").value,
     photo:        images.photo,
     birthCert:    images.birth,
+    family:       document.getElementById("family").value.trim(),
     holy:         getCheckedValues("holy"),
     sport:        getCheckedValues("sport"),
   };
