@@ -105,24 +105,54 @@
 
       <div class="field">
         <label>صورة شهادة الميلاد <span class="req">*</span></label>
-        <div class="file-zone">
+        <div class="file-zone" id="zone-birth">
           <input type="file" accept="image/*" onchange="handleFile(this,'birth')">
           <div class="file-icon">🪪</div>
           <div class="file-label">اضغط لرفع صورة شهادة الميلاد</div>
         </div>
-        <div class="preview" id="prev-birth"><img id="img-birth" src="" alt="شهادة الميلاد"></div>
+        <div class="preview" id="prev-birth">
+          <img id="img-birth" src="" alt="شهادة الميلاد">
+          <button type="button" class="replace-btn" onclick="replaceImage('birth')">تغيير الصورة</button>
+        </div>
         <div class="ferr" id="e-birth">هذا الحقل مطلوب</div>
       </div>
 
       <div class="field">
         <label>الصورة الشخصية <span class="req">*</span></label>
-        <div class="file-zone">
+        <div class="file-zone" id="zone-photo">
           <input type="file" accept="image/*" onchange="handleFile(this,'photo')">
           <div class="file-icon">📷</div>
           <div class="file-label">اضغط لرفع الصورة الشخصية</div>
         </div>
-        <div class="preview" id="prev-photo"><img id="img-photo" src="" alt="الصورة الشخصية"></div>
+        <div class="preview" id="prev-photo">
+          <img id="img-photo" src="" alt="الصورة الشخصية">
+          <button type="button" class="replace-btn" onclick="replaceImage('photo')">تغيير الصورة</button>
+        </div>
         <div class="ferr" id="e-photo">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>الروحي <span class="req">*</span></label>
+        <select id="holy" multiple>
+          <option value="">— اختر الأنشطة الروحية —</option>
+          <option value="الكتاب المقدس">الكتاب المقدس</option>
+          <option value="الألحان">الألحان</option>
+          <option value="القبطي">القبطي</option>
+          <option value="المحفوظات">المحفوظات</option>
+        </select>
+        <div class="ferr" id="e-holy">هذا الحقل مطلوب</div>
+      </div>
+
+      <div class="field">
+        <label>الرياضي <span class="req">*</span></label>
+        <select id="sport" multiple>
+          <option value="">— اختر الأنشطة الرياضيية —</option>
+          <option value="كرة القدم">كرة القدم</option>
+          <option value="تنس">تنس طاولة</option>
+          <option value="شطرنج">شطرنج</option>
+          <option value="جري">جري</option>
+        </select>
+        <div class="ferr" id="e-sport">هذا الحقل مطلوب</div>
       </div>
     </div>
 
@@ -142,7 +172,7 @@
     <div class="info-screen">
       <div class="info-icon">🎉</div>
       <h2>تم الإرسال بنجاح!</h2>
-      <p>تم تسجيل بياناتك بنجاح.</p>
+      <p>تم تسجيل بياناتك بنجاح!</p>
       <div class="srv-id" id="srvId"></div>
       <br>
       <button class="ghost-btn" onclick="toggleBox('successBox')">أخطأت في البيانات؟</button>
