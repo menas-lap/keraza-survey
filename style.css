@@ -349,3 +349,17 @@ select.err { border-color: var(--error); }
   text-align: right;
 }
 .contact-box.on { display: block; }
+
+/* ── LOADING SPINNER ── */
+.loading-spinner {
+  font-size: 60px;
+  color: var(--gold);
+  display: inline-block;
+  margin-bottom: 18px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
