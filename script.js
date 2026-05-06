@@ -25,7 +25,7 @@ const images = { photo: null, birth: null };
 // ══════════════════════════════════════════
 //  INIT
 // ══════════════════════════════════════════
-(function init() {
+(async function init() {
   // Already submitted → block
   if (localStorage.getItem(K_SUBMITTED)) {
     showScreen("blockedScreen");
@@ -38,8 +38,81 @@ const images = { photo: null, birth: null };
     localStorage.setItem(K_TOKEN, token);
   }
 
-  showScreen("formScreen");
+  // Show loading screen while fetching options
+  showScreen("loadingScreen");
+
+  // Load options from Google Sheet, then show form
+  const success = await loadOptions();
+  if (success) {
+    showScreen("formScreen");
+  }
 })();
+
+
+// ══════════════════════════════════════════
+//  LOAD OPTIONS FROM GOOGLE SHEET
+// ══════════════════════════════════════════
+async function loadOptions() {
+  try {
+    const res  = await fetch(SCRIPT_URL);
+    const opts = await res.json();
+
+    // ── ملء قائمة المرحلة ──
+    const stageEl = document.getElementById("stage");
+    opts.stage.forEach(v => {
+      const o = document.createElement("option");
+      o.value = v;
+      o.textContent = v;
+      stageEl.appendChild(o);
+    });
+
+    // ── ملء قائمة الخدمة ──
+    const serviceEl = document.getElementById("service");
+    opts.service.forEach(v => {
+      const o = document.createElement("option");
+      o.value = v;
+      o.textContent = v;
+      serviceEl.appendChild(o);
+    });
+
+    // ── ملء قائمة النوع ──
+    const genderEl = document.getElementById("gender");
+    opts.gender.forEach(v => {
+      const o = document.createElement("option");
+      o.value = v;
+      o.textContent = v;
+      genderEl.appendChild(o);
+    });
+
+    // ── ملء checkboxes الروحي ──
+    const holyEl = document.getElementById("holy");
+    opts.holy.forEach(v => {
+      const label = document.createElement("label");
+      label.className = "chip";
+      label.innerHTML = `<input type="checkbox" value="${v}"><span>${v}</span>`;
+      holyEl.appendChild(label);
+    });
+
+    // ── ملء checkboxes الرياضي ──
+    const sportEl = document.getElementById("sport");
+    opts.sport.forEach(v => {
+      const label = document.createElement("label");
+      label.className = "chip";
+      label.innerHTML = `<input type="checkbox" value="${v}"><span>${v}</span>`;
+      sportEl.appendChild(label);
+    });
+
+    return true;
+
+  } catch (err) {
+    console.error("فشل تحميل الخيارات:", err);
+    // Show error screen
+    document.getElementById("loadingScreen").querySelector("h2").textContent = "خطأ في التحميل";
+    document.getElementById("loadingScreen").querySelector("p").textContent = "تعذّر الاتصال بالخادم، يرجى تحديث الصفحة والمحاولة مرة أخرى.";
+    document.getElementById("loadingScreen").querySelector(".loading-spinner").textContent = "⚠️";
+    return false;
+  }
+}
 
 
 // ══════════════════════════════════════════
@@ -126,7 +199,7 @@ function validate() {
     if (hasErr) isValid = false;
   }
 
-  // ── الاسم الرباعي: at least 4 words, Arabic letters only ──
+  // ── الاسم الرباعي: at least 4 words ──
   const name = document.getElementById("fullName").value.trim();
   const nameWords = name.split(/\s+/).filter(w => w.length > 0);
   if (!name) {
