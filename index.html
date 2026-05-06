@@ -27,6 +27,20 @@
     </div>
   </div>
 
+  <!-- ═══════════ LOADING SCREEN ═══════════ -->
+  <div id="loadingScreen" class="screen">
+    <div class="header">
+      <span class="cross">☩</span>
+      <h1>مهرجان الكرازة</h1>
+      <div class="divider"></div>
+    </div>
+    <div class="info-screen">
+      <div class="loading-spinner">☩</div>
+      <h2>جاري التحميل...</h2>
+      <p>يرجى الانتظار</p>
+    </div>
+  </div>
+
   <!-- ═══════════ FORM SCREEN ═══════════ -->
   <div id="formScreen" class="screen">
     <div class="header">
@@ -47,36 +61,27 @@
 
       <div class="field">
         <label>المرحلة <span class="req">*</span></label>
+        <!-- الخيارات تتحمل تلقائياً من Google Sheet -->
         <select id="stage">
           <option value="">— اختر المرحلة —</option>
-          <option value="حضانة">حضانة</option>
-          <option value="أولى/ثانية">أولى / ثانية</option>
-          <option value="ثالثة/رابعة">ثالثة / رابعة</option>
-          <option value="خامسة/سادسة">خامسة / سادسة</option>
         </select>
         <div class="ferr" id="e-stage">هذا الحقل مطلوب</div>
       </div>
 
       <div class="field">
         <label>الخدمة <span class="req">*</span></label>
+        <!-- الخيارات تتحمل تلقائياً من Google Sheet -->
         <select id="service">
           <option value="">— اختر الخدمة —</option>
-          <option value="أبو سيفين">أبو سيفين</option>
-          <option value="العدراء">العدراء</option>
-          <option value="يوحنا">يوحنا</option>
-          <option value="خامسة وسادسة">خامسة وسادسة</option>
-          <option value="شمامسة">شمامسة</option>
         </select>
         <div class="ferr" id="e-service">هذا الحقل مطلوب</div>
       </div>
 
       <div class="field">
         <label>النوع <span class="req">*</span></label>
+        <!-- الخيارات تتحمل تلقائياً من Google Sheet -->
         <select id="gender">
           <option value="">— اختر —</option>
-          <option value="حضانة">حضانة</option>
-          <option value="ولد">ولد</option>
-          <option value="بنت">بنت</option>
         </select>
         <div class="ferr" id="e-gender">هذا الحقل مطلوب</div>
       </div>
@@ -134,23 +139,15 @@
 
       <div class="field">
         <label>الروحي <span class="req">*</span></label>
-        <div class="checkbox-group" id="holy">
-          <label class="chip"><input type="checkbox" value="الكتاب المقدس"><span>الكتاب المقدس</span></label>
-          <label class="chip"><input type="checkbox" value="الألحان"><span>الألحان</span></label>
-          <label class="chip"><input type="checkbox" value="القبطي"><span>القبطي</span></label>
-          <label class="chip"><input type="checkbox" value="المحفوظات"><span>المحفوظات</span></label>
-        </div>
+        <!-- الخيارات تتحمل تلقائياً من Google Sheet -->
+        <div class="checkbox-group" id="holy"></div>
         <div class="ferr" id="e-holy">هذا الحقل مطلوب</div>
       </div>
 
       <div class="field">
         <label>الرياضي <span class="req">*</span></label>
-        <div class="checkbox-group" id="sport">
-          <label class="chip"><input type="checkbox" value="كرة القدم"><span>كرة القدم</span></label>
-          <label class="chip"><input type="checkbox" value="تنس طاولة"><span>تنس طاولة</span></label>
-          <label class="chip"><input type="checkbox" value="شطرنج"><span>شطرنج</span></label>
-          <label class="chip"><input type="checkbox" value="جري"><span>جري</span></label>
-        </div>
+        <!-- الخيارات تتحمل تلقائياً من Google Sheet -->
+        <div class="checkbox-group" id="sport"></div>
         <div class="ferr" id="e-sport">هذا الحقل مطلوب</div>
       </div>
     </div>
